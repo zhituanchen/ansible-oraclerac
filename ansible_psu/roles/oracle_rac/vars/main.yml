@@ -7,11 +7,11 @@ oracle_base_dir: /u01/app
 rac_node_name: rac
 
 # RAC IP
-rac1vip: 10.0.0.190
-rac2vip: 10.0.0.191
-rac1privip: 192.168.100.172
-rac2privip: 192.168.100.173
-racscanip: 10.0.0.189
+rac1vip: 10.0.0.1x0
+rac2vip: 10.0.0.1x1
+rac1privip: 192.168.100.1x2
+rac2privip: 192.168.100.1x3
+racscanip: 10.0.0.1x9
 racpublicfcname: ens192
 racprivfcname: ens224
 
