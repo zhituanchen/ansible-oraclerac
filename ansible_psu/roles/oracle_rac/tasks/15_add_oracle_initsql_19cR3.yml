@@ -1,0 +1,16 @@
+---
+
+    - name: copy init sql to node1
+      template:
+        src: ../templates/{{ item }}
+        dest: /tmp/{{ item }}
+        mode: 0775
+      with_items:
+        ['oracle_init.sql']
+      when: cluster_role == "node1"
+
+    - name: create read only user on node1
+      become: yes
+      become_user: oracle
+      shell: source /home/oracle/.bash_profile && sqlplus -S / as sysdba @"/tmp/oracle_init.sql"
+      when: cluster_role == "node1"

@@ -1,0 +1,5 @@
+---
+
+    - name: root.sh script for node2
+      shell: "{{oracle_base_dir}}/oracle/product/19.3.0/db/root.sh"
+      when: cluster_role == "node2"

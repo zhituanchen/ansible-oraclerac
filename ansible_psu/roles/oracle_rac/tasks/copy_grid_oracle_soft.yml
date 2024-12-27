@@ -1,0 +1,25 @@
+---
+
+    - name: download installation grid media
+      copy:
+        src: "{{download_target}}/{{oracle_grid_soft}}"
+        dest: '/{{soft_dir}}/LINUX.X64_193000_grid_home.zip'
+      when: cluster_role == "node1"
+    
+    - name: download installation oracle media
+      copy:
+        src: "{{download_target}}/{{oracle_oracle_soft}}"
+        dest: '/{{soft_dir}}/LINUX.X64_193000_db_home.zip'
+      when: cluster_role == "node1"
+
+    - name: download installation opatch version media
+      copy:
+        src: "{{download_target}}/p6880880_190000_Linux-x86-64.zip"
+        dest: '/{{soft_dir}}/p6880880_190000_Linux-x86-64.zip'
+      when: cluster_role == "node1"
+    
+    - name: download installation RU media
+      copy:
+        src: "{{download_target}}/p{{oracle_release_update}}_190000_Linux-x86-64.zip"
+        dest: "/{{soft_dir}}/p{{oracle_release_update}}_190000_Linux-x86-64.zip"
+      when: cluster_role == "node1"

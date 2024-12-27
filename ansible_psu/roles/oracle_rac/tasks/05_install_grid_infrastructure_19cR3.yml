@@ -1,0 +1,59 @@
+---
+
+    - name: copy grid.rsp
+      template:
+        src: ../templates/{{ item }}
+        dest: /tmp/{{ item }}
+        mode: 0775
+      with_items:
+        ['grid.rsp']
+      when: cluster_role == "node1"
+
+    - name: chenge owner for response file
+      shell: chown grid:oinstall /tmp/grid.rsp
+      when: cluster_role == "node1"
+
+    - name: restart udev service
+      shell: systemctl restart systemd-udev-trigger.service && udevadm control --reload-rules && udevadm trigger
+      ignore_errors: True
+
+    - name: check oracleasm
+      shell: rpm -qa |grep oracleasm-support|wc -l
+      register: result
+
+    - name: oracleasm scandisks
+      shell: "oracleasm scandisks"
+      ignore_errors: True
+      when: result.stdout != "0"
+
+    - name: copy and unzip file
+      shell: unzip -o {{ soft_dir }}/LINUX.X64_193000_grid_home.zip -d {{ oracle_base_dir }}/19.3.0/grid/
+      when: cluster_role == "node1"
+
+    - name: change dir grid home files permission
+      file: path={{ oracle_base_dir }}/19.3.0/grid/ owner=grid group=oinstall mode=0755 recurse=yes state=directory
+
+    - name: chenge grid owner for soft dir 
+      shell: "chown -R grid:oinstall {{soft_dir}}"
+      when: cluster_role == "node1"
+
+    - name: replace grid opatch version
+      become: yes
+      become_user: grid
+      shell: unzip -o {{soft_dir}}/p6880880_190000_Linux-x86-64.zip -d {{oracle_base_dir}}/19.3.0/grid/
+      when: cluster_role == "node1"
+
+    - name: unzip patch soft
+      become: yes
+      become_user: grid
+      shell: unzip -o {{soft_dir}}/p{{oracle_release_update}}_190000_Linux-x86-64.zip -d {{soft_dir}}/
+      when: cluster_role == "node1"
+
+    - name: change dir grid home files permission
+      file: path={{ oracle_base_dir }}/19.3.0/grid/ owner=grid group=oinstall mode=0755 recurse=yes state=directory
+
+    - name: grid installation
+      become: yes
+      become_user: grid
+      shell: "{{oracle_base_dir}}/19.3.0/grid/gridSetup.sh -silent -force -responseFile /tmp/grid.rsp -ignorePrereqFailure -waitForCompletion -skipPrereqs -applyPSU {{soft_dir}}/{{oracle_release_update}}"
+      when: cluster_role == "node1"

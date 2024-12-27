@@ -1,0 +1,8 @@
+---
+
+    - name: execute database installation
+      become: yes
+      become_user: oracle
+      shell: "{{oracle_base_dir}}/oracle/product/19.3.0/db/bin/dbca -silent -createDatabase -ignorePrereqFailure -templateName General_Purpose.dbc -responseFile NO_VALUE -gdbName {{oracle_sid}} -sid {{oracle_sid}} -sysPassword Ora_2023_1234 -systemPassword Ora_2023_1234 -redoLogFileSize 120 -storageType ASM -enableArchive true -archiveLogDest +DATA  -databaseConfigType RAC -sampleSchema true -characterset {{characterset}} -nationalCharacterSet AL16UTF16 -datafileDestination +DATA -emConfiguration NONE -automaticMemoryManagement false  -totalMemory {{ [ ((ansible_memtotal_mb * 0.4) | int ) , 1 ] | max }} -nodeinfo {{rac_node_name}}01,{{rac_node_name}}02 -databaseType OLTP -createAsContainerDatabase FALSE"
+      ignore_errors: True
+      when: cluster_role == "node1"

@@ -1,0 +1,30 @@
+---
+
+    - name: set sqlnet.ora for rac node
+      become: yes
+      become_user: oracle
+      lineinfile:
+         dest={{oracle_base_dir}}/oracle/product/19.3.0/db/network/admin/sqlnet.ora
+         create=no
+         insertafter=EOF
+         line={{ item }}
+      with_items:
+         - '##OracleBegin'
+         - 'SQLNET.ALLOWED_LOGON_VERSION_CLIENT=8'
+         - 'SQLNET.ALLOWED_LOGON_VERSION_SERVER=8'
+         - 'SQLNET.ALLOWED_LOGON_VERSION=8'
+         - '##OracleEnd'
+
+    - name: stop lsnrctl for rac node1
+      become: yes
+      become_user: grid
+      shell: source /home/grid/.bash_profile && srvctl stop listener
+      ignore_errors: True
+      when: cluster_role == "node1"
+
+    - name: start lsnrctl for rac node1
+      become: yes
+      become_user: grid
+      shell: source /home/grid/.bash_profile && srvctl start listener
+      ignore_errors: True
+      when: cluster_role == "node1"

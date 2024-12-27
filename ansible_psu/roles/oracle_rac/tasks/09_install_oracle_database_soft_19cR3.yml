@@ -1,0 +1,52 @@
+---
+
+    - name: create directory for oracle home
+      shell: mkdir -p {{oracle_base_dir}}/oracle/product/19.3.0/db
+
+    - name: add bash_profile for oracle
+      lineinfile: dest=/home/oracle/.bash_profile line='{{ item.line }}'
+      with_items:
+      - line: "export ORACLE_BASE={{oracle_base_dir}}/oracle"
+      - line: "export ORACLE_HOME={{oracle_base_dir}}/oracle/product/19.3.0/db"
+      - line: "export PATH=$ORACLE_HOME/bin:$PATH"
+
+    - name: copy db.rsp
+      template:
+        src: ../templates/{{ item }}
+        dest: /tmp/{{ item }}
+        mode: 0775
+      with_items:
+        ['db.rsp']
+      when: cluster_role == "node1"
+
+    - name: chenge owner for response file
+      shell: chown oracle:oinstall /tmp/db.rsp
+      when: cluster_role == "node1"
+
+    - name: copy and unzip db file
+      shell: unzip -o {{ soft_dir }}/LINUX.X64_193000_db_home.zip -d {{oracle_base_dir}}/oracle/product/19.3.0/db/
+      when: cluster_role == "node1"
+
+    - name: change dir oracle home files permission
+      file: path={{oracle_base_dir}}/oracle owner=oracle group=oinstall mode=0755 recurse=yes state=directory
+
+    - name: chenge oracle owner for soft dir 
+      shell: "chown -R oracle:oinstall {{soft_dir}}"
+      when: cluster_role == "node1"
+
+    - name: replace oracle opatch version
+      become: yes
+      become_user: oracle
+      shell: unzip -o {{soft_dir}}/p6880880_190000_Linux-x86-64.zip -d {{oracle_base_dir}}/oracle/product/19.3.0/db
+      when: cluster_role == "node1"
+
+    - name: change dir oracle home files permission
+      file: path={{oracle_base_dir}}/oracle owner=oracle group=oinstall mode=0755 recurse=yes state=directory
+
+    - name: execute database  soft installation
+      become: yes
+      become_user: oracle
+      shell: "{{oracle_base_dir}}/oracle/product/19.3.0/db/runInstaller -silent -force -responseFile /tmp/db.rsp -ignorePrereq -ignoreInternalDriverError -waitforcompletion -applyRU {{soft_dir}}/{{oracle_release_update}}"
+      ignore_errors: True
+      when: cluster_role == "node1"
+

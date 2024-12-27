@@ -1,0 +1,11 @@
+---
+
+- name: oracle_rac cluster
+  set_fact:
+    oracle_rac_cluster_servers_group: []
+
+- name: declare host group
+  set_fact:
+    oracle_rac_cluster_servers_group: "{{oracle_rac_cluster_servers_group}} + [ '{{ item }}' ]"
+  with_items: "{{ groups['oracle_rac'] }}"
+

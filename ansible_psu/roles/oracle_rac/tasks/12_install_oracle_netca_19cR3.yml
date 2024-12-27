@@ -1,0 +1,21 @@
+---
+
+    - name: copy netca.rsp
+      template:
+        src: ../templates/{{ item }}
+        dest: /tmp/{{ item }}
+        mode: 0775
+      with_items:
+        ['netca.rsp']
+      when: cluster_role == "node1"
+
+    - name: chenge owner for response file
+      shell: chown oracle:oinstall /tmp/netca.rsp
+      when: cluster_role == "node1"
+
+    - name: execute netca installation
+      become: yes
+      become_user: oracle
+      shell: "{{oracle_base_dir}}/oracle/product/19.3.0/db/bin/netca -silent -responsefile /tmp/netca.rsp"
+      ignore_errors: True
+      when: cluster_role == "node1"

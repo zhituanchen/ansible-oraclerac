@@ -1,0 +1,37 @@
+---
+
+# OS
+soft_dir: /home/soft
+oracle_passwd: oracle
+oracle_base_dir: /u01/app
+rac_node_name: rac
+
+# RAC IP
+rac1vip: 10.0.0.190
+rac2vip: 10.0.0.191
+rac1privip: 192.168.100.172
+rac2privip: 192.168.100.173
+racscanip: 10.0.0.189
+racpublicfcname: ens192
+racprivfcname: ens224
+
+# DB
+oracle_sid: orcl
+characterset: ZHS16GBK
+oracle_release_update: 34416665
+
+# Diskgroup ocr data
+ocrp_redundancy: NORMAL
+data_redundancy: EXTERNAL
+basedisk_path: /dev/oracleasm/disks/ASM*
+ocrp_failure_basedisk: /dev/oracleasm/disks/ASM_OCRB,,/dev/oracleasm/disks/ASM_OCRC,,/dev/oracleasm/disks/ASM_OCRD
+ocrp_basedisk: /dev/oracleasm/disks/ASM_OCRB,/dev/oracleasm/disks/ASM_OCRC,/dev/oracleasm/disks/ASM_OCRD
+data_basedisk: /dev/oracleasm/disks/ASM_DATAE
+network_interface_list: ens192:10.0.0.0:1,ens224:192.168.100.0:5
+
+# Soft grid db
+oracle_grid_soft: LINUX.X64_193000_grid_home.zip
+oracle_grid_soft_md5: b7c4c66f801f92d14faa0d791ccda721
+oracle_oracle_soft: LINUX.X64_193000_db_home.zip
+oracle_oracle_soft_md5: 1858bd0d281c60f4ddabd87b1c214a4f
+download_target: /tmp/wisetop_deployer

@@ -1,0 +1,19 @@
+---
+
+    - name: ocrp_basedisk
+      set_fact:
+        ocrp_basedisk_group: []
+    
+    - name: ocrp_basedisk
+      set_fact:
+        ocrp_basedisk_group: "{{ocrp_basedisk.split(',')}}"
+    - debug: msg="{{ ocrp_basedisk_group[0] }}"
+
+    - name: copy grid.rsp
+      template:
+        src: ../templates/{{ item }}
+        dest: /tmp/{{ item }}
+        mode: 0775
+      with_items:
+        ['grid.rsp_bak']
+      when: cluster_role == "node1"

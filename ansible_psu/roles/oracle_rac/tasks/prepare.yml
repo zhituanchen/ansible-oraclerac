@@ -1,0 +1,33 @@
+---
+
+    - name: set hostname on node1
+      shell: hostnamectl set-hostname {{rac_node_name}}01
+      when: cluster_role == "node1" 
+   
+    - name: set hostname on node2
+      shell: hostnamectl set-hostname {{rac_node_name}}02
+      when: cluster_role == "node2"
+    
+    - name: create soft directory on all node
+      file:
+        path: '{{soft_dir}}'
+        state: directory
+        owner: root
+        group: root
+        recurse: yes
+    
+    - name: copy expect tcl  rpm package on all node
+      copy:
+        src: ../files/{{ item }}
+        dest: '{{soft_dir}}/{{ item }}'
+        mode: 0774
+      with_items:
+        ['expect-5.45-14.el7_1.x86_64.rpm','tcl-8.5.13-8.el7.x86_64.rpm','pdksh-5.2.14-37.el5.x86_64.rpm','compat-libstdc++-33-3.2.3-72.el7.x86_64.rpm','oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm']
+    
+    - name: install expect tcl  rpm on all node
+      yum:
+        name: '{{soft_dir}}/{{ item }}'
+        state: present
+      with_items:
+        - tcl-8.5.13-8.el7.x86_64.rpm
+        - expect-5.45-14.el7_1.x86_64.rpm
