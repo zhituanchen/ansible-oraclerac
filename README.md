@@ -5,7 +5,7 @@ use ansible playbook scripts auto install oracle 19c rac database
 ## system and db info
 ```markdown
 system: centos 7
-db: 19C 
+db: 19C ru 34416665
 ```
 
 ## ansible hosts
@@ -13,6 +13,16 @@ db: 19C
 [oracle_rac]
 10.x.x.xx2 ansible_user=root ansible_ssh_pass=kd11111 cluster_role=node1
 10.x.x.xx3 ansible_user=root ansible_ssh_pass=kd11111 cluster_role=node2
+```
+
+## oracleasm
+```markdown
+manually install the oracleasm software
+oracleasm listdisks
+ASM_DATAE
+ASM_OCRB
+ASM_OCRC
+ASM_OCRD
 ```
 
 ## ansible var
@@ -38,6 +48,7 @@ racprivfcname: ens224
 # DB 数据库实例名 字符集 
 oracle_sid: orcl
 characterset: ZHS16GBK
+oracle_release_update: 34416665
 
 # Diskgroup ocr data 磁盘组属性设置 ocr盘组的路口名称 ocr盘信息跟failure设置注意中间多了逗号 data数据盘设置（多个用逗号隔开）网卡列表信息设置（注意公网私网IP信息对应,注意最后位是0）
 ocrp_redundancy: NORMAL
@@ -60,3 +71,4 @@ download_target: /home/soft
 # Notice
 These scripts are optimized based on the installation processes shared by users online. If there is any infringement, please contact me in time to delete them.
 Hope this can be of help to you
+Blog https://www.cnblogs.com/zetanchen/
