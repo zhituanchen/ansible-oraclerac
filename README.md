@@ -2,6 +2,12 @@
 use ansible playbook scripts auto install oracle 19c rac database
 
 # Quick Start
+## system and db info
+```markdown
+system: centos 7
+db: 19C 
+```
+
 ## ansible hosts
 ```markdown
 [oracle_rac]
