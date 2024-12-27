@@ -1,0 +1,49 @@
+---
+
+    - name: copy sshUserSetup on node1
+      template:
+        src: ../templates/{{ item }}
+        dest: /tmp/{{ item }}
+        mode: 0775
+      with_items:
+        ['sshUserSetup.sh','auto_grid_ssh.sh','auto_oracle_ssh.sh']
+      when: cluster_role == "node1"
+
+    - name: clear grid user ssh
+      shell: rm -rf /home/grid/.ssh/*
+
+    - name: clear oracle user ssh
+      shell: rm -rf /home/oracle/.ssh/*
+
+    - name: config grid user ssh on node1
+      become: yes
+      become_user: grid
+      shell: /usr/bin/expect -f /tmp/auto_grid_ssh.sh
+      when: cluster_role == "node1"
+
+    - name: config oracle user ssh on node1
+      become: yes
+      become_user: oracle
+      shell: /usr/bin/expect -f /tmp/auto_oracle_ssh.sh
+      when: cluster_role == "node1"
+
+    - name: copy sshUserSetup on node2
+      template:
+        src: ../templates/{{ item }}
+        dest: /tmp/{{ item }}
+        mode: 0775
+      with_items:
+        ['auto_grid_ssh02.sh','auto_oracle_ssh02.sh']
+      when: cluster_role == "node2"
+
+    - name: config grid user ssh on node2
+      become: yes
+      become_user: grid
+      shell: /usr/bin/expect -f /tmp/auto_grid_ssh02.sh
+      when: cluster_role == "node2"
+
+    - name: config oracle user ssh on node2
+      become: yes
+      become_user: oracle
+      shell: /usr/bin/expect -f /tmp/auto_oracle_ssh02.sh
+      when: cluster_role == "node2"

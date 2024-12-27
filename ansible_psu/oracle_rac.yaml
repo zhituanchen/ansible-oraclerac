@@ -1,0 +1,5 @@
+---
+- hosts: oracle_rac
+  gather_facts: yes
+  roles:
+    - oracle_rac

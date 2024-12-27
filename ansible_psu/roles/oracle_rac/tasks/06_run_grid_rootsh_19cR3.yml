@@ -1,0 +1,27 @@
+---
+
+    - name: check orainstRoot.sh
+      shell: ls {{oracle_base_dir}}/oraInventory/orainstRoot.sh
+      register: result
+
+    - name: run orainstRoot.sh
+      shell: /usr/bin/sh {{oracle_base_dir}}/oraInventory/orainstRoot.sh
+      when: result is succeeded
+
+    - name: check root.sh on node1
+      shell: ls {{oracle_base_dir}}/19.3.0/grid/root.sh
+      register: result
+      when: cluster_role == "node1"
+
+    - name: run root.sh on node1
+      shell: /usr/bin/sh {{oracle_base_dir}}/19.3.0/grid/root.sh
+      when: (result is succeeded) and (cluster_role == "node1")
+
+    - name: check root.sh on node2
+      shell: ls {{oracle_base_dir}}/19.3.0/grid/root.sh
+      register: result
+      when: cluster_role == "node2"
+
+    - name: run root.sh on node2
+      shell: /usr/bin/sh {{oracle_base_dir}}/19.3.0/grid/root.sh
+      when: (result is succeeded) and (cluster_role == "node2")

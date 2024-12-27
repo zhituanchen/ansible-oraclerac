@@ -1,0 +1,77 @@
+---
+
+- name: prepare on all node
+  include: prepare.yml
+  tags: [prepare]
+
+- name: copy_grid_oracle_soft
+  include: copy_grid_oracle_soft.yml
+  tags: [copy_grid_oracle_soft]
+
+- name: oracle_rac cluster nodes
+  include: init_cluster.yml
+  tags: [oracle_grid_ssh]
+
+- name: change_os_setting on all node
+  include: 01_change_os_setting_19cR3.yml
+  tags: [change_os_setting]
+
+- name: change_oracle_params on all node
+  include: 02_change_oracle_params_19cR3.yml
+  tags: [change_oracle_params]
+
+- name: add_oracle_group_user on all node
+  include: 03_add_oracle_group_user_19cR3.yml
+  tags: [add_oracle_group_user]
+
+- name: oracle_grid_ssh on node1
+  include: 04_oracle_grid_ssh_19cR3.yml
+  tags: [oracle_grid_ssh]
+
+- name: install_grid_infrastructure
+  include: 05_install_grid_infrastructure_19cR3.yml
+  tags: [install_grid_infrastructure]
+
+- name: run_grid_rootsh
+  include: 06_run_grid_rootsh_19cR3.yml
+  tags: [run_grid_rootsh]
+
+- name: configtools_grid_oracle_profile
+  include: 07_configtools_grid_oracle_profile_19cR3.yml
+  tags: [configtools_grid_oracle_profile]
+
+- name: asmca_data_diskgroup_create
+  include: 08_asmca_data_diskgroup_create_19cR3.yml
+  tags: [asmca_data_diskgroup_create]
+
+- name: install_oracle_database_soft
+  include: 09_install_oracle_database_soft_19cR3.yml
+  tags: [install_oracle_database_soft]
+
+- name: run_oracle_rootsh_node1
+  include: 10_run_oracle_rootsh_node1_19cR3.yml
+  tags: [run_oracle_rootsh_node1]
+
+- name: run_oracle_rootsh_node2
+  include: 11_run_oracle_rootsh_node2_19cR3.yml
+  tags: [run_oracle_rootsh_node2]
+
+- name: install_oracle_netca
+  include: 12_install_oracle_netca_19cR3.yml
+  tags: [install_oracle_netca]
+
+- name: install_oracle_database
+  include: 13_create_oracle_database_19cR3.yml
+  tags: [install_oracle_database]
+
+- name: add_oracle_sqlnet
+  include: 14_add_oracle_sqlnet_19cR3.yml
+  tags: [add_oracle_sqlnet]
+
+- name: add_oracle_initsql
+  include: 15_add_oracle_initsql_19cR3.yml
+  tags: [add_oracle_initsql]
+
+- name: split
+  include: split.yml
+  tags: [split]

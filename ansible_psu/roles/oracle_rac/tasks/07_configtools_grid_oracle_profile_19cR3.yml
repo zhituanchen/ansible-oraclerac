@@ -1,0 +1,40 @@
+---
+
+    - name: grid configtools installation
+      become: yes
+      become_user: grid
+      shell: "{{oracle_base_dir}}/19.3.0/grid/gridSetup.sh -executeConfigTools -responseFile /tmp/grid.rsp -silent"
+      ignore_errors: True
+      when: cluster_role == "node1"
+
+    - name: add bash_profile for grid on node1
+      lineinfile: dest=/home/grid/.bash_profile line='{{ item.line }}'
+      with_items:
+      - line: "export ORACLE_SID=+ASM1"
+      - line: "export PATH=$ORACLE_HOME/bin:$PATH"
+      when: cluster_role == "node1"
+
+    - name: add bash_profile for grid on node2
+      lineinfile: dest=/home/grid/.bash_profile line='{{ item.line }}'
+      with_items:
+      - line: "export ORACLE_SID=+ASM2"
+      - line: "export PATH=$ORACLE_HOME/bin:$PATH"
+      when: cluster_role == "node2"
+
+    - name: add bash_profile for oracle on node1
+      lineinfile: dest=/home/oracle/.bash_profile line='{{ item.line }}'
+      with_items:
+      - line: " "
+      - line: "### for oracle "
+      - line: "export ORACLE_SID={{oracle_sid}}1"
+      - line: "export PATH=$ORACLE_HOME/bin:$PATH"
+      when: cluster_role == "node1"
+
+    - name: add bash_profile for oracle on node2
+      lineinfile: dest=/home/oracle/.bash_profile line='{{ item.line }}'
+      with_items:
+      - line: " "
+      - line: "### for oracle "
+      - line: "export ORACLE_SID={{oracle_sid}}2"
+      - line: "export PATH=$ORACLE_HOME/bin:$PATH"
+      when: cluster_role == "node2"

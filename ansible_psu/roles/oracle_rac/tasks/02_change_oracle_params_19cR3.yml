@@ -1,0 +1,140 @@
+---
+
+    - name: backup for /etc/hosts
+      shell: cp -p /etc/hosts /etc/hosts.bak
+
+    - name: create file for oracle.hosts
+      lineinfile:
+         dest=/etc/hosts
+         create=no
+         insertafter=EOF
+         line={{ item }}
+      with_items:
+         - '###Public IP'
+         - '{{ oracle_rac_cluster_servers_group[0] }}     {{rac_node_name}}01'
+         - '{{ oracle_rac_cluster_servers_group[1] }}     {{rac_node_name}}02'
+         - ' '
+         - '###Private IP'
+         - '{{rac1privip}}          {{rac_node_name}}01-priv'
+         - '{{rac2privip}}          {{rac_node_name}}02-priv'
+         - ' '
+         - '###Virtual IP'
+         - '{{rac1vip}}     {{rac_node_name}}01-vip'
+         - '{{rac2vip}}     {{rac_node_name}}02-vip'
+         - ' '
+         - '###Scan IP'
+         - '{{racscanip}}     {{rac_node_name}}-scan'
+         - ' '
+
+    - name: backup for grub.cfg
+      shell: cp -p /boot/grub2/grub.cfg /boot/grub2/grub.cfg.bak
+
+    - name: change for grub.cfg
+      shell: sed -i".bak" -e "s/transparent_hugepage=never/transparent_hugepage=always/g" /etc/default/grub
+
+    - name: make grub2
+      shell: grub2-mkconfig -o /boot/grub2/grub.cfg
+
+    - name: backup for /etc/sysctl.conf
+      shell: cp -p /etc/sysctl.conf /etc/sysctl.conf.bak
+
+    - sysctl:
+        name: net.ipv4.conf.all.rp_filter
+        value: 2
+
+    - sysctl:
+        name: net.ipv4.conf.default.rp_filter
+        value: 2
+
+    - sysctl:
+        name: fs.file-max
+        value: 6815744
+
+    - name: stat /etc/ntp.conf
+      stat: path=/etc/ntp.conf
+      register: result
+
+    - name: move file /etc/ntp.conf
+      shell: mv /etc/ntp.conf /etc/ntp.conf.bak
+      when: result.stat.exists
+
+    - name: stat /var/run/ ntpid.pid
+      stat: path=/var/run/ntpd.pid
+      register: result
+
+    - name: remove file /var/run/ntpd.pid
+      shell: rm /var/run/ntpd.pid
+      when: result.stat.exists
+
+    - pam_limits:
+        domain: grid
+        limit_type: soft
+        limit_item: nproc
+        value: 2047
+
+    - pam_limits:
+        domain: grid
+        limit_type: hard
+        limit_item: nproc
+        value: 16384
+
+    - pam_limits:
+        domain: grid
+        limit_type: soft
+        limit_item: nofile
+        value: 1024
+
+    - pam_limits:
+        domain: grid
+        limit_type: hard
+        limit_item: nofile
+        value: 65536
+
+    - pam_limits:
+        domain: grid
+        limit_type: soft
+        limit_item: stack
+        value: 10240
+
+    - pam_limits:
+        domain: grid
+        limit_type: hard
+        limit_item: stack
+        value: 10240
+
+
+    - pam_limits:
+        domain: oracle
+        limit_type: soft
+        limit_item: nproc
+        value: 2047
+
+    - pam_limits:
+        domain: oracle
+        limit_type: hard
+        limit_item: nproc
+        value: 16384
+
+    - pam_limits:
+        domain: oracle
+        limit_type: soft
+        limit_item: nofile
+        value: 1024
+
+    - pam_limits:
+        domain: oracle
+        limit_type: hard
+        limit_item: nofile
+        value: 65536
+
+    - pam_limits:
+        domain: oracle
+        limit_type: soft
+        limit_item: stack
+        value: 10240
+
+    - pam_limits:
+        domain: oracle
+        limit_type: hard
+        limit_item: stack
+        value: 10240

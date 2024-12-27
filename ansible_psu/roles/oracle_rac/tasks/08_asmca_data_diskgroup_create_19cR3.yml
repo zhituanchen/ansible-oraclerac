@@ -1,0 +1,7 @@
+---
+
+    - name: create data diskgroup
+      become: yes
+      become_user: grid
+      shell: "{{oracle_base_dir}}/19.3.0/grid/bin/asmca -silent -createDiskGroup -diskGroupName DATA -diskList {{data_basedisk}} -redundancy {{data_redundancy}}"
+      when: cluster_role == "node1"
