@@ -71,4 +71,4 @@ download_target: /home/soft
 # Notice
 These scripts are optimized based on the installation processes shared by users online. If there is any infringement, please contact me in time to delete them.
 Hope this can be of help to you
-Blog https://www.cnblogs.com/zetanchen/
+Blog https://www.cnblogs.com/zetanchen/p/17415686.html
