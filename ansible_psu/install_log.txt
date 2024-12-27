@@ -1,0 +1,636 @@
+ansible-playbook /root/auto/ansible/oracle_rac.yaml
+
+PLAY [oracle_rac] *******************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : set hostname on node1] *******************************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : set hostname on node2] *******************************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : create soft directory on all node] *******************************************************************************************************************************************************
+ok: [10.x.x.xx3]
+ok: [10.x.x.xx2]
+
+TASK [oracle_rac : copy expect tcl  rpm package on all node] ************************************************************************************************************************************************
+ok: [10.x.x.xx3] => (item=expect-5.45-14.el7_1.x86_64.rpm)
+ok: [10.x.x.xx2] => (item=expect-5.45-14.el7_1.x86_64.rpm)
+ok: [10.x.x.xx3] => (item=tcl-8.5.13-8.el7.x86_64.rpm)
+ok: [10.x.x.xx2] => (item=tcl-8.5.13-8.el7.x86_64.rpm)
+ok: [10.x.x.xx3] => (item=pdksh-5.2.14-37.el5.x86_64.rpm)
+ok: [10.x.x.xx2] => (item=pdksh-5.2.14-37.el5.x86_64.rpm)
+ok: [10.x.x.xx3] => (item=compat-libstdc++-33-3.2.3-72.el7.x86_64.rpm)
+ok: [10.x.x.xx2] => (item=compat-libstdc++-33-3.2.3-72.el7.x86_64.rpm)
+ok: [10.x.x.xx3] => (item=oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm)
+ok: [10.x.x.xx2] => (item=oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm)
+
+TASK [oracle_rac : install expect tcl  rpm on all node] *****************************************************************************************************************************************************
+[DEPRECATION WARNING]: Invoking "yum" only once while using a loop via squash_actions is deprecated. Instead of using a loop to supply multiple items and specifying `name: "{{soft_dir}}/{{ item }}"`, 
+please use `name: ['tcl-8.5.13-8.el7.x86_64.rpm', 'expect-5.45-14.el7_1.x86_64.rpm']` and remove the loop. This feature will be removed in version 2.11. Deprecation warnings can be disabled by setting 
+deprecation_warnings=False in ansible.cfg.
+[DEPRECATION WARNING]: Invoking "yum" only once while using a loop via squash_actions is deprecated. Instead of using a loop to supply multiple items and specifying `name: "{{soft_dir}}/{{ item }}"`, 
+please use `name: ['tcl-8.5.13-8.el7.x86_64.rpm', 'expect-5.45-14.el7_1.x86_64.rpm']` and remove the loop. This feature will be removed in version 2.11. Deprecation warnings can be disabled by setting 
+deprecation_warnings=False in ansible.cfg.
+ok: [10.x.x.xx2] => (item=['/home/soft/tcl-8.5.13-8.el7.x86_64.rpm', '/home/soft/expect-5.45-14.el7_1.x86_64.rpm'])
+ok: [10.x.x.xx3] => (item=['/home/soft/tcl-8.5.13-8.el7.x86_64.rpm', '/home/soft/expect-5.45-14.el7_1.x86_64.rpm'])
+
+TASK [oracle_rac : oracle_rac cluster] **********************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : declare host group] **********************************************************************************************************************************************************************
+ok: [10.x.x.xx2] => (item=10.x.x.xx2)
+ok: [10.x.x.xx2] => (item=10.x.x.xx3)
+ok: [10.x.x.xx3] => (item=10.x.x.xx2)
+ok: [10.x.x.xx3] => (item=10.x.x.xx3)
+
+TASK [oracle_rac : change SELinux is disable] ***************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : stop firewall] ***************************************************************************************************************************************************************************
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : stop auto start a firewall] **************************************************************************************************************************************************************
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : install oracle-database-preinstall   rpm] ************************************************************************************************************************************************
+ok: [10.x.x.xx3] => (item=oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm)
+ok: [10.x.x.xx2] => (item=oracle-database-preinstall-19c-1.0-1.el7.x86_64.rpm)
+
+TASK [oracle_rac : stop auto start a avahi-daemon] **********************************************************************************************************************************************************
+changed: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : stop avahi-daemon] ***********************************************************************************************************************************************************************
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : stop auto start a chronyd] ***************************************************************************************************************************************************************
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : stop chronyd] ****************************************************************************************************************************************************************************
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : backup for /etc/hosts] *******************************************************************************************************************************************************************
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : create file for oracle.hosts] ************************************************************************************************************************************************************
+ok: [10.x.x.xx2] => (item=###Public IP)
+ok: [10.x.x.xx3] => (item=###Public IP)
+ok: [10.x.x.xx2] => (item=10.x.x.xx2     rac01)
+ok: [10.x.x.xx3] => (item=10.x.x.xx2     rac01)
+ok: [10.x.x.xx2] => (item=10.x.x.xx3     rac02)
+ok: [10.x.x.xx3] => (item=10.x.x.xx3     rac02)
+ok: [10.x.x.xx2] => (item= )
+ok: [10.x.x.xx3] => (item= )
+ok: [10.x.x.xx2] => (item=###Private IP)
+ok: [10.x.x.xx3] => (item=###Private IP)
+ok: [10.x.x.xx2] => (item=192.168.100.172          rac01-priv)
+ok: [10.x.x.xx3] => (item=192.168.100.172          rac01-priv)
+ok: [10.x.x.xx2] => (item=192.168.100.173          rac02-priv)
+ok: [10.x.x.xx3] => (item=192.168.100.173          rac02-priv)
+ok: [10.x.x.xx2] => (item= )
+ok: [10.x.x.xx3] => (item= )
+ok: [10.x.x.xx2] => (item=###Virtual IP)
+ok: [10.x.x.xx3] => (item=###Virtual IP)
+ok: [10.x.x.xx2] => (item=10.0.0.190     rac01-vip)
+ok: [10.x.x.xx3] => (item=10.0.0.190     rac01-vip)
+ok: [10.x.x.xx2] => (item=10.0.0.191     rac02-vip)
+ok: [10.x.x.xx3] => (item=10.0.0.191     rac02-vip)
+ok: [10.x.x.xx2] => (item= )
+ok: [10.x.x.xx3] => (item= )
+ok: [10.x.x.xx2] => (item=###Scan IP)
+ok: [10.x.x.xx3] => (item=###Scan IP)
+ok: [10.x.x.xx2] => (item=10.0.0.189     rac-scan)
+ok: [10.x.x.xx3] => (item=10.0.0.189     rac-scan)
+ok: [10.x.x.xx2] => (item= )
+ok: [10.x.x.xx3] => (item= )
+
+TASK [oracle_rac : backup for grub.cfg] *********************************************************************************************************************************************************************
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : change for grub.cfg] *********************************************************************************************************************************************************************
+[WARNING]: Consider using the replace, lineinfile or template module rather than running 'sed'.  If you need to use command because replace, lineinfile or template is insufficient you can add 'warn:
+false' to this command task or set 'command_warnings=False' in ansible.cfg to get rid of this message.
+
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : make grub2] ******************************************************************************************************************************************************************************
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : backup for /etc/sysctl.conf] *************************************************************************************************************************************************************
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : sysctl] **********************************************************************************************************************************************************************************
+[WARNING]: The value 2 (type int) in a string field was converted to u'2' (type string). If this does not look like what you expect, quote the entire value to ensure it does not change.
+
+ok: [10.x.x.xx3]
+ok: [10.x.x.xx2]
+
+TASK [oracle_rac : sysctl] **********************************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : sysctl] **********************************************************************************************************************************************************************************
+[WARNING]: The value 6815744 (type int) in a string field was converted to u'6815744' (type string). If this does not look like what you expect, quote the entire value to ensure it does not change.
+
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : stat /etc/ntp.conf] **********************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : move file /etc/ntp.conf] *****************************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+skipping: [10.x.x.xx3]
+
+TASK [oracle_rac : stat /var/run/ ntpid.pid] ****************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : remove file /var/run/ntpd.pid] ***********************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+skipping: [10.x.x.xx3]
+
+TASK [oracle_rac : pam_limits] ******************************************************************************************************************************************************************************
+[WARNING]: The value 2047 (type int) in a string field was converted to u'2047' (type string). If this does not look like what you expect, quote the entire value to ensure it does not change.
+
+ok: [10.x.x.xx3]
+ok: [10.x.x.xx2]
+
+TASK [oracle_rac : pam_limits] ******************************************************************************************************************************************************************************
+[WARNING]: The value 16384 (type int) in a string field was converted to u'16384' (type string). If this does not look like what you expect, quote the entire value to ensure it does not change.
+
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : pam_limits] ******************************************************************************************************************************************************************************
+[WARNING]: The value 1024 (type int) in a string field was converted to u'1024' (type string). If this does not look like what you expect, quote the entire value to ensure it does not change.
+
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : pam_limits] ******************************************************************************************************************************************************************************
+[WARNING]: The value 65536 (type int) in a string field was converted to u'65536' (type string). If this does not look like what you expect, quote the entire value to ensure it does not change.
+
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : pam_limits] ******************************************************************************************************************************************************************************
+[WARNING]: The value 10240 (type int) in a string field was converted to u'10240' (type string). If this does not look like what you expect, quote the entire value to ensure it does not change.
+
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : pam_limits] ******************************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : pam_limits] ******************************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : pam_limits] ******************************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : pam_limits] ******************************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : pam_limits] ******************************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : pam_limits] ******************************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : pam_limits] ******************************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : check group for oinstall] ****************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : add group for oinstall] ******************************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+skipping: [10.x.x.xx3]
+
+TASK [oracle_rac : check group for dba] *********************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : add group for dba] ***********************************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+skipping: [10.x.x.xx3]
+
+TASK [oracle_rac : check group for oper] ********************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : add group for oper] **********************************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+skipping: [10.x.x.xx3]
+
+TASK [oracle_rac : check group for backupdba] ***************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : add group for backupdba] *****************************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+skipping: [10.x.x.xx3]
+
+TASK [oracle_rac : check group for dgdba] *******************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : add group for dgdba] *********************************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+skipping: [10.x.x.xx3]
+
+TASK [oracle_rac : check group for kmdba] *******************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : add group for kmdba] *********************************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+skipping: [10.x.x.xx3]
+
+TASK [oracle_rac : check group for asmadmin] ****************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : add group for asmadmin] ******************************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+skipping: [10.x.x.xx3]
+
+TASK [oracle_rac : check group for asmdba] ******************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : add group for asmdba] ********************************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+skipping: [10.x.x.xx3]
+
+TASK [oracle_rac : check group for asmoper] *****************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : add group for asmoper] *******************************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+skipping: [10.x.x.xx3]
+
+TASK [oracle_rac : check group for racdba] ******************************************************************************************************************************************************************
+ok: [10.x.x.xx2]
+ok: [10.x.x.xx3]
+
+TASK [oracle_rac : add group for racdba] ********************************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+skipping: [10.x.x.xx3]
+
+TASK [oracle_rac : check user for grid] *********************************************************************************************************************************************************************
+fatal: [10.x.x.xx2]: FAILED! => {"changed": false, "cmd": "id grid", "delta": "0:00:00.059661", "end": "2023-03-29 03:01:31.345133", "msg": "non-zero return code", "rc": 1, "start": "2023-03-29 03:01:31.285472", "stderr": "id: grid: no such user", "stderr_lines": ["id: grid: no such user"], "stdout": "", "stdout_lines": []}
+...ignoring
+fatal: [10.x.x.xx3]: FAILED! => {"changed": false, "cmd": "id grid", "delta": "0:00:00.009653", "end": "2023-03-29 03:01:30.996735", "msg": "non-zero return code", "rc": 1, "start": "2023-03-29 03:01:30.987082", "stderr": "id: grid: no such user", "stderr_lines": ["id: grid: no such user"], "stdout": "", "stdout_lines": []}
+...ignoring
+
+TASK [oracle_rac : add user for grid] ***********************************************************************************************************************************************************************
+ok: [10.x.x.xx3]
+ok: [10.x.x.xx2]
+
+TASK [oracle_rac : check user for oracle] *******************************************************************************************************************************************************************
+fatal: [10.x.x.xx2]: FAILED! => {"changed": false, "cmd": "id oracle", "delta": "0:00:00.010554", "end": "2023-03-29 03:01:32.714873", "msg": "non-zero return code", "rc": 1, "start": "2023-03-29 03:01:32.704319", "stderr": "id: oracle: no such user", "stderr_lines": ["id: oracle: no such user"], "stdout": "", "stdout_lines": []}
+...ignoring
+fatal: [10.x.x.xx3]: FAILED! => {"changed": false, "cmd": "id oracle", "delta": "0:00:00.009216", "end": "2023-03-29 03:01:32.486137", "msg": "non-zero return code", "rc": 1, "start": "2023-03-29 03:01:32.476921", "stderr": "id: oracle: no such user", "stderr_lines": ["id: oracle: no such user"], "stdout": "", "stdout_lines": []}
+...ignoring
+
+TASK [oracle_rac : add user for oracle] *********************************************************************************************************************************************************************
+ok: [10.x.x.xx3]
+ok: [10.x.x.xx2]
+
+TASK [oracle_rac : change password for grid] ****************************************************************************************************************************************************************
+changed: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : change password for oracle] **************************************************************************************************************************************************************
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : create directory for grid base] **********************************************************************************************************************************************************
+[WARNING]: Consider using the file module with state=directory rather than running 'mkdir'.  If you need to use command because file is insufficient you can add 'warn: false' to this command task or set
+'command_warnings=False' in ansible.cfg to get rid of this message.
+
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : create directory for oracle base] ********************************************************************************************************************************************************
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : create directory for grid home] **********************************************************************************************************************************************************
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : change owner for grid] *******************************************************************************************************************************************************************
+[WARNING]: Consider using the file module with owner rather than running 'chown'.  If you need to use command because file is insufficient you can add 'warn: false' to this command task or set
+'command_warnings=False' in ansible.cfg to get rid of this message.
+
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : change owner for oracle] *****************************************************************************************************************************************************************
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : change] **********************************************************************************************************************************************************************************
+[WARNING]: Consider using the file module with mode rather than running 'chmod'.  If you need to use command because file is insufficient you can add 'warn: false' to this command task or set
+'command_warnings=False' in ansible.cfg to get rid of this message.
+
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : add bash_profile for grid] ***************************************************************************************************************************************************************
+changed: [10.x.x.xx2] => (item={'line': ' '})
+changed: [10.x.x.xx3] => (item={'line': ' '})
+changed: [10.x.x.xx2] => (item={'line': '### for grid '})
+changed: [10.x.x.xx3] => (item={'line': '### for grid '})
+changed: [10.x.x.xx2] => (item={'line': 'export LANG=en_US.UTF-8'})
+changed: [10.x.x.xx3] => (item={'line': 'export LANG=en_US.UTF-8'})
+changed: [10.x.x.xx2] => (item={'line': 'export NLS_LANG=AMERICAN_AMERICA.ZHS16GBK'})
+changed: [10.x.x.xx3] => (item={'line': 'export NLS_LANG=AMERICAN_AMERICA.ZHS16GBK'})
+changed: [10.x.x.xx2] => (item={'line': 'export ORACLE_BASE=/u01/app/grid'})
+changed: [10.x.x.xx3] => (item={'line': 'export ORACLE_BASE=/u01/app/grid'})
+changed: [10.x.x.xx2] => (item={'line': 'export ORACLE_HOME=/u01/app/19.3.0/grid'})
+changed: [10.x.x.xx3] => (item={'line': 'export ORACLE_HOME=/u01/app/19.3.0/grid'})
+
+TASK [oracle_rac : add bash_profile for oracle] *************************************************************************************************************************************************************
+changed: [10.x.x.xx2] => (item={'line': ' '})
+changed: [10.x.x.xx3] => (item={'line': ' '})
+changed: [10.x.x.xx3] => (item={'line': '### for oracle '})
+changed: [10.x.x.xx2] => (item={'line': '### for oracle '})
+changed: [10.x.x.xx3] => (item={'line': 'export LANG=en_US.UTF-8'})
+changed: [10.x.x.xx2] => (item={'line': 'export LANG=en_US.UTF-8'})
+changed: [10.x.x.xx3] => (item={'line': 'export NLS_LANG=AMERICAN_AMERICA.ZHS16GBK'})
+changed: [10.x.x.xx2] => (item={'line': 'export NLS_LANG=AMERICAN_AMERICA.ZHS16GBK'})
+changed: [10.x.x.xx3] => (item={'line': 'export ORACLE_BASE=/u01/app/oracle'})
+changed: [10.x.x.xx2] => (item={'line': 'export ORACLE_BASE=/u01/app/oracle'})
+changed: [10.x.x.xx3] => (item={'line': 'export ORACLE_HOME=/u01/app/oracle/product/19.3.0/db'})
+changed: [10.x.x.xx2] => (item={'line': 'export ORACLE_HOME=/u01/app/oracle/product/19.3.0/db'})
+
+TASK [oracle_rac : copy sshUserSetup on node1] **************************************************************************************************************************************************************
+skipping: [10.x.x.xx3] => (item=sshUserSetup.sh) 
+skipping: [10.x.x.xx3] => (item=auto_grid_ssh.sh) 
+skipping: [10.x.x.xx3] => (item=auto_oracle_ssh.sh) 
+changed: [10.x.x.xx2] => (item=sshUserSetup.sh)
+ok: [10.x.x.xx2] => (item=auto_grid_ssh.sh)
+ok: [10.x.x.xx2] => (item=auto_oracle_ssh.sh)
+
+TASK [oracle_rac : clear grid user ssh] *********************************************************************************************************************************************************************
+[WARNING]: Consider using the file module with state=absent rather than running 'rm'.  If you need to use command because file is insufficient you can add 'warn: false' to this command task or set
+'command_warnings=False' in ansible.cfg to get rid of this message.
+
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : clear oracle user ssh] *******************************************************************************************************************************************************************
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : config grid user ssh on node1] ***********************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+[WARNING]: Module remote_tmp /home/grid/.ansible/tmp did not exist and was created with a mode of 0700, this may cause issues when running as another user. To avoid this, create the remote_tmp dir with
+the correct permissions manually
+
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : config oracle user ssh on node1] *********************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+[WARNING]: Module remote_tmp /home/oracle/.ansible/tmp did not exist and was created with a mode of 0700, this may cause issues when running as another user. To avoid this, create the remote_tmp dir with
+the correct permissions manually
+
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : copy sshUserSetup on node2] **************************************************************************************************************************************************************
+skipping: [10.x.x.xx2] => (item=auto_grid_ssh02.sh) 
+skipping: [10.x.x.xx2] => (item=auto_oracle_ssh02.sh) 
+ok: [10.x.x.xx3] => (item=auto_grid_ssh02.sh)
+ok: [10.x.x.xx3] => (item=auto_oracle_ssh02.sh)
+
+TASK [oracle_rac : config grid user ssh on node2] ***********************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : config oracle user ssh on node2] *********************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : copy grid.rsp] ***************************************************************************************************************************************************************************
+skipping: [10.x.x.xx3] => (item=grid.rsp) 
+ok: [10.x.x.xx2] => (item=grid.rsp)
+
+TASK [oracle_rac : chenge owner for response file] **********************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : restart udev service] ********************************************************************************************************************************************************************
+changed: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : check oracleasm] *************************************************************************************************************************************************************************
+[WARNING]: Consider using the yum, dnf or zypper module rather than running 'rpm'.  If you need to use command because yum, dnf or zypper is insufficient you can add 'warn: false' to this command task or
+set 'command_warnings=False' in ansible.cfg to get rid of this message.
+
+changed: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : oracleasm scandisks] *********************************************************************************************************************************************************************
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : copy and unzip file] *********************************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+[WARNING]: Consider using the unarchive module rather than running 'unzip'.  If you need to use command because unarchive is insufficient you can add 'warn: false' to this command task or set
+'command_warnings=False' in ansible.cfg to get rid of this message.
+
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : change dir grid home files permission] ***************************************************************************************************************************************************
+changed: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : grid installation] ***********************************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : check orainstRoot.sh] ********************************************************************************************************************************************************************
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : run orainstRoot.sh] **********************************************************************************************************************************************************************
+changed: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : check root.sh on node1] ******************************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : run root.sh on node1] ********************************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : check root.sh on node2] ******************************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : run root.sh on node2] ********************************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : grid configtools installation] ***********************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+fatal: [10.x.x.xx2]: FAILED! => {"changed": true, "cmd": "/u01/app/19.3.0/grid/gridSetup.sh -executeConfigTools -responseFile /tmp/grid.rsp -silent", "delta": "0:03:09.388664", "end": "2023-03-29 03:27:15.362999", "msg": "non-zero return code", "rc": 255, "start": "2023-03-29 03:24:05.974335", "stderr": "", "stderr_lines": [], "stdout": "Launching Oracle Grid Infrastructure Setup Wizard...\n\nYou can find the logs of this session at:\n/u01/app/oraInventory/logs/GridSetupActions2023-03-29_03-24-06AM\n\nYou can find the log of this install session at:\n /u01/app/oraInventory/logs/UpdateNodeList2023-03-29_03-24-06AM.log\nConfiguration failed.\n[WARNING] [INS-43080] Some of the configuration assistants failed, were cancelled or skipped.\n   ACTION: Refer to the logs or contact Oracle Support Services.", "stdout_lines": ["Launching Oracle Grid Infrastructure Setup Wizard...", "", "You can find the logs of this session at:", "/u01/app/oraInventory/logs/GridSetupActions2023-03-29_03-24-06AM", "", "You can find the log of this install session at:", " /u01/app/oraInventory/logs/UpdateNodeList2023-03-29_03-24-06AM.log", "Configuration failed.", "[WARNING] [INS-43080] Some of the configuration assistants failed, were cancelled or skipped.", "   ACTION: Refer to the logs or contact Oracle Support Services."]}
+...ignoring
+
+TASK [oracle_rac : add bash_profile for grid on node1] ******************************************************************************************************************************************************
+skipping: [10.x.x.xx3] => (item={'line': 'export ORACLE_SID=+ASM1'}) 
+skipping: [10.x.x.xx3] => (item={'line': 'export PATH=$ORACLE_HOME/bin:$PATH'}) 
+changed: [10.x.x.xx2] => (item={'line': 'export ORACLE_SID=+ASM1'})
+changed: [10.x.x.xx2] => (item={'line': 'export PATH=$ORACLE_HOME/bin:$PATH'})
+
+TASK [oracle_rac : add bash_profile for grid on node2] ******************************************************************************************************************************************************
+skipping: [10.x.x.xx2] => (item={'line': 'export ORACLE_SID=+ASM2'}) 
+skipping: [10.x.x.xx2] => (item={'line': 'export PATH=$ORACLE_HOME/bin:$PATH'}) 
+changed: [10.x.x.xx3] => (item={'line': 'export ORACLE_SID=+ASM2'})
+changed: [10.x.x.xx3] => (item={'line': 'export PATH=$ORACLE_HOME/bin:$PATH'})
+
+TASK [oracle_rac : add bash_profile for oracle on node1] ****************************************************************************************************************************************************
+skipping: [10.x.x.xx3] => (item={'line': ' '}) 
+skipping: [10.x.x.xx3] => (item={'line': '### for oracle '}) 
+skipping: [10.x.x.xx3] => (item={'line': 'export ORACLE_SID=orcl1'}) 
+skipping: [10.x.x.xx3] => (item={'line': 'export PATH=$ORACLE_HOME/bin:$PATH'}) 
+ok: [10.x.x.xx2] => (item={'line': ' '})
+ok: [10.x.x.xx2] => (item={'line': '### for oracle '})
+changed: [10.x.x.xx2] => (item={'line': 'export ORACLE_SID=orcl1'})
+changed: [10.x.x.xx2] => (item={'line': 'export PATH=$ORACLE_HOME/bin:$PATH'})
+
+TASK [oracle_rac : add bash_profile for oracle on node2] ****************************************************************************************************************************************************
+skipping: [10.x.x.xx2] => (item={'line': ' '}) 
+skipping: [10.x.x.xx2] => (item={'line': '### for oracle '}) 
+skipping: [10.x.x.xx2] => (item={'line': 'export ORACLE_SID=orcl2'}) 
+skipping: [10.x.x.xx2] => (item={'line': 'export PATH=$ORACLE_HOME/bin:$PATH'}) 
+ok: [10.x.x.xx3] => (item={'line': ' '})
+ok: [10.x.x.xx3] => (item={'line': '### for oracle '})
+changed: [10.x.x.xx3] => (item={'line': 'export ORACLE_SID=orcl2'})
+changed: [10.x.x.xx3] => (item={'line': 'export PATH=$ORACLE_HOME/bin:$PATH'})
+
+TASK [oracle_rac : create data diskgroup] *******************************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : create directory for oracle home] ********************************************************************************************************************************************************
+changed: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : add bash_profile for oracle] *************************************************************************************************************************************************************
+ok: [10.x.x.xx2] => (item={'line': 'export ORACLE_BASE=/u01/app/oracle'})
+ok: [10.x.x.xx2] => (item={'line': 'export ORACLE_HOME=/u01/app/oracle/product/19.3.0/db'})
+ok: [10.x.x.xx2] => (item={'line': 'export PATH=$ORACLE_HOME/bin:$PATH'})
+ok: [10.x.x.xx3] => (item={'line': 'export ORACLE_BASE=/u01/app/oracle'})
+ok: [10.x.x.xx3] => (item={'line': 'export ORACLE_HOME=/u01/app/oracle/product/19.3.0/db'})
+ok: [10.x.x.xx3] => (item={'line': 'export PATH=$ORACLE_HOME/bin:$PATH'})
+
+TASK [oracle_rac : copy db.rsp] *****************************************************************************************************************************************************************************
+skipping: [10.x.x.xx3] => (item=db.rsp) 
+changed: [10.x.x.xx2] => (item=db.rsp)
+
+TASK [oracle_rac : chenge owner for response file] **********************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : copy and unzip db file] ******************************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : change dir oracle home files permission] *************************************************************************************************************************************************
+changed: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : execute database  soft installation] *****************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+fatal: [10.x.x.xx2]: FAILED! => {"changed": true, "cmd": "/u01/app/oracle/product/19.3.0/db/runInstaller -silent -force -responseFile /tmp/db.rsp -ignorePrereq -ignoreInternalDriverError -waitforcompletion", "delta": "0:05:53.333003", "end": "2023-03-29 03:36:03.135703", "msg": "non-zero return code", "rc": 6, "start": "2023-03-29 03:30:09.802700", "stderr": "", "stderr_lines": [], "stdout": "Launching Oracle Database Setup Wizard...\n\n[WARNING] [INS-13013] Target environment does not meet some mandatory requirements.\n   CAUSE: Some of the mandatory prerequisites are not met. See logs for details. /u01/app/oraInventory/logs/InstallActions2023-03-29_03-30-09AM/installActions2023-03-29_03-30-09AM.log\n   ACTION: Identify the list of failed prerequisite checks from the log: /u01/app/oraInventory/logs/InstallActions2023-03-29_03-30-09AM/installActions2023-03-29_03-30-09AM.log. Then either from the log file or from installation manual find the appropriate configuration to meet the prerequisites and fix it manually.\nThe response file for this session can be found at:\n /u01/app/oracle/product/19.3.0/db/install/response/db_2023-03-29_03-30-09AM.rsp\n\nYou can find the log of this install session at:\n /u01/app/oraInventory/logs/InstallActions2023-03-29_03-30-09AM/installActions2023-03-29_03-30-09AM.log\n\nAs a root user, execute the following script(s):\n\t1. /u01/app/oracle/product/19.3.0/db/root.sh\n\nExecute /u01/app/oracle/product/19.3.0/db/root.sh on the following nodes: \n[rac01, rac02]\n\n\nSuccessfully Setup Software with warning(s).", "stdout_lines": ["Launching Oracle Database Setup Wizard...", "", "[WARNING] [INS-13013] Target environment does not meet some mandatory requirements.", "   CAUSE: Some of the mandatory prerequisites are not met. See logs for details. /u01/app/oraInventory/logs/InstallActions2023-03-29_03-30-09AM/installActions2023-03-29_03-30-09AM.log", "   ACTION: Identify the list of failed prerequisite checks from the log: /u01/app/oraInventory/logs/InstallActions2023-03-29_03-30-09AM/installActions2023-03-29_03-30-09AM.log. Then either from the log file or from installation manual find the appropriate configuration to meet the prerequisites and fix it manually.", "The response file for this session can be found at:", " /u01/app/oracle/product/19.3.0/db/install/response/db_2023-03-29_03-30-09AM.rsp", "", "You can find the log of this install session at:", " /u01/app/oraInventory/logs/InstallActions2023-03-29_03-30-09AM/installActions2023-03-29_03-30-09AM.log", "", "As a root user, execute the following script(s):", "\t1. /u01/app/oracle/product/19.3.0/db/root.sh", "", "Execute /u01/app/oracle/product/19.3.0/db/root.sh on the following nodes: ", "[rac01, rac02]", "", "", "Successfully Setup Software with warning(s)."]}
+...ignoring
+
+TASK [oracle_rac : root.sh script for node1] ****************************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : root.sh script for node2] ****************************************************************************************************************************************************************
+skipping: [10.x.x.xx2]
+changed: [10.x.x.xx3]
+
+TASK [oracle_rac : copy netca.rsp] **************************************************************************************************************************************************************************
+skipping: [10.x.x.xx3] => (item=netca.rsp) 
+changed: [10.x.x.xx2] => (item=netca.rsp)
+
+TASK [oracle_rac : chenge owner for response file] **********************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : execute netca installation] **************************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : execute database installation] ***********************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : set sqlnet.ora for rac node] *************************************************************************************************************************************************************
+changed: [10.x.x.xx2] => (item=##OracleBegin)
+changed: [10.x.x.xx3] => (item=##OracleBegin)
+changed: [10.x.x.xx3] => (item=SQLNET.ALLOWED_LOGON_VERSION_CLIENT=8)
+changed: [10.x.x.xx2] => (item=SQLNET.ALLOWED_LOGON_VERSION_CLIENT=8)
+changed: [10.x.x.xx2] => (item=SQLNET.ALLOWED_LOGON_VERSION_SERVER=8)
+changed: [10.x.x.xx2] => (item=SQLNET.ALLOWED_LOGON_VERSION=8)
+changed: [10.x.x.xx2] => (item=##OracleEnd)
+changed: [10.x.x.xx3] => (item=SQLNET.ALLOWED_LOGON_VERSION_SERVER=8)
+changed: [10.x.x.xx3] => (item=SQLNET.ALLOWED_LOGON_VERSION=8)
+changed: [10.x.x.xx3] => (item=##OracleEnd)
+
+TASK [oracle_rac : stop lsnrctl for rac node1] **************************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : start lsnrctl for rac node1] *************************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+TASK [oracle_rac : copy init sql to node1] ******************************************************************************************************************************************************************
+skipping: [10.x.x.xx3] => (item=oracle_init.sql) 
+ok: [10.x.x.xx2] => (item=oracle_init.sql)
+
+TASK [oracle_rac : create read only user on node1] **********************************************************************************************************************************************************
+skipping: [10.x.x.xx3]
+changed: [10.x.x.xx2]
+
+PLAY RECAP **************************************************************************************************************************************************************************************************
+10.x.x.xx2                 : ok=100  changed=57   unreachable=0    failed=0    skipped=21   rescued=0    ignored=4   
+10.x.x.xx3                 : ok=82   changed=40   unreachable=0    failed=0    skipped=39   rescued=0    ignored=2
